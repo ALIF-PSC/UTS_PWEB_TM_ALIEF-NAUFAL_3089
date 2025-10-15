@@ -7,18 +7,18 @@ $db = $database->getConnection();
 
 if ($_POST) {
     try {
-        $query = "INSERT INTO anggota SET nama_anggota=:nama_anggota, email=:email, telepon=:telepon, alamat=:alamat, tanggal_daftar=:tanggal_daftar, status=:status";
+        $query = "INSERT INTO buku SET judul_buku=:judul_buku, pengarang=:pengarang, penerbit=:penerbit, tahun_terbit=:tahun_terbit, isbn=:isbn, stok=:stok";
         $stmt = $db->prepare($query);
         
-        $stmt->bindParam(":nama_anggota", $_POST['nama_anggota']);
-        $stmt->bindParam(":email", $_POST['email']);
-        $stmt->bindParam(":telepon", $_POST['telepon']);
-        $stmt->bindParam(":alamat", $_POST['alamat']);
-        $stmt->bindParam(":tanggal_daftar", $_POST['tanggal_daftar']);
-        $stmt->bindParam(":status", $_POST['status']);
+        $stmt->bindParam(":judul_buku", $_POST['judul_buku']);
+        $stmt->bindParam(":pengarang", $_POST['pengarang']);
+        $stmt->bindParam(":penerbit", $_POST['penerbit']);
+        $stmt->bindParam(":tahun_terbit", $_POST['tahun_terbit']);
+        $stmt->bindParam(":isbn", $_POST['isbn']);
+        $stmt->bindParam(":stok", $_POST['stok']);
         
         if ($stmt->execute()) {
-            $_SESSION['success'] = "Anggota berhasil ditambahkan!";
+            $_SESSION['success'] = "Buku berhasil ditambahkan!";
             header("Location: index.php");
             exit();
         }
@@ -32,7 +32,7 @@ if ($_POST) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tambah Anggota</title>
+    <title>Tambah Buku</title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
@@ -42,8 +42,8 @@ if ($_POST) {
                 <div class="logo">Perpustakaan Digital</div>
                 <ul class="nav-links">
                     <li><a href="../index.php">Dashboard</a></li>
-                    <li><a href="../buku/index.php">Buku</a></li>
-                    <li><a href="index.php">Anggota</a></li>
+                    <li><a href="index.php">Buku</a></li>
+                    <li><a href="../anggota/index.php">Anggota</a></li>
                     <li><a href="../peminjaman/index.php">Peminjaman</a></li>
                 </ul>
             </nav>
@@ -53,43 +53,35 @@ if ($_POST) {
     <main class="main-content">
         <div class="container">
             <div class="page-header">
-                <h1 class="page-title">Tambah Anggota</h1>
+                <h1 class="page-title">Tambah Buku</h1>
                 <a href="index.php" class="btn">Kembali</a>
             </div>
 
             <div class="card">
                 <form action="create.php" method="POST">
                     <div class="form-group">
-                        <label for="nama_anggota">Nama Anggota *</label>
-                        <input type="text" class="form-control" id="nama_anggota" name="nama_anggota" required>
+                        <label for="judul_buku">Judul Buku</label>
+                        <input type="text" class="form-control" id="judul_buku" name="judul_buku" required>
                     </div>
                     
                     <div class="form-group">
-                        <label for="email">Email *</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
+                        <label for="pengarang">Pengarang</label>
+                        <input type="text" class="form-control" id="pengarang" name="pengarang" required>
                     </div>
                     
                     <div class="form-group">
-                        <label for="telepon">Telepon</label>
-                        <input type="text" class="form-control" id="telepon" name="telepon" placeholder="08123456789">
+                        <label for="penerbit">Penerbit</label>
+                        <input type="text" class="form-control" id="penerbit" name="penerbit">
                     </div>
                     
                     <div class="form-group">
-                        <label for="alamat">Alamat</label>
-                        <textarea class="form-control" id="alamat" name="alamat" rows="3"></textarea>
+                        <label for="tahun_terbit">Tahun Terbit</label>
+                        <input type="number" class="form-control" id="tahun_terbit" name="tahun_terbit" min="1900" max="2024">
                     </div>
                     
                     <div class="form-group">
-                        <label for="tanggal_daftar">Tanggal Daftar *</label>
-                        <input type="date" class="form-control" id="tanggal_daftar" name="tanggal_daftar" required value="<?php echo date('Y-m-d'); ?>">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="status">Status *</label>
-                        <select class="form-control" id="status" name="status" required>
-                            <option value="Aktif">Aktif</option>
-                            <option value="Non-Aktif">Non-Aktif</option>
-                        </select>
+                        <label for="stok">Stok</label>
+                        <input type="number" class="form-control" id="stok" name="stok" min="0" value="0">
                     </div>
                     
                     <button type="submit" class="btn btn-success">Simpan</button>
